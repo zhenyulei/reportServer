@@ -1,0 +1,28 @@
+{
+  "apps":[{
+    "name": "myReport",
+    "script": "app.js",
+    "env": {
+      "COMMON_VARIABLE": "true"
+    },
+    "env_production" : {
+      "NODE_ENV": "production"
+    }
+  }],
+  "deploy" : {
+    "production" : {
+      "user" : "zyl",
+      "host" : ["39.106.194.136"],
+　　　　"port":"22",
+      "ref"  : "origin/master",
+      "repo" : "github.com/zhenyulei/reportServer",
+      "path" : "/home/zyl/www/website/myReport",
+      "ssh_options": "StrictHostKeyChecking=no",
+      "pre-setup" : "",
+      "post-setup": "ls -la",
+      "pre-deploy-local" : "echo 'This is a local executed command'",
+      "post-deploy" : "npm install && npm run prd && pm2 startOrRestart ecosystem.json --env production", 
+      "env" : { "NODE_ENV": "production" } 
+    } 
+  }
+}

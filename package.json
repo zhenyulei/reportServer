@@ -5,9 +5,12 @@
   "description": "日报系统服务端代码",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon bin/www",
-    "prd": "pm2 start bin/www",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node bin/www",
+    "dev": "cross-env NODE_ENV=dev ./node_modules/.bin/nodemon bin/www",
+    "prd": "cross-env NODE_ENV=production pm2 start bin/www --watch",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "setup": "pm2 deploy ecosystem.json production setup",
+    "upload": "pm2 deploy ecosystem.json production"
   },
   "repository": {
     "type": "git",
@@ -18,6 +21,7 @@
   },
   "homepage": "https://github.com/zhenyulei/reportServer#readme",
   "dependencies": {
+    "cross-env": "^7.0.2",
     "debug": "^4.1.1",
     "ejs": "~2.3.3",
     "koa": "^2.7.0",
