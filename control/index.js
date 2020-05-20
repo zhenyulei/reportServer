@@ -8,6 +8,8 @@ if(process.env.NODE_ENV == "dev"){
 }
 const projectData = require(projectPath);
 const userData = require("../data/userInfo.json");
+const proData = require(path.resolve(__dirname,"../data/report.json"));
+
 
 
 const getProjectData  = async (currErp)=>{
@@ -27,6 +29,16 @@ function saveProjectData(newData){
         }
     })    
 }
+
+//
+const getAllProData = async()=>{
+    return proData;
+}
+
+const getAllUserData = async()=>{
+    return userData;
+}
+//
 
 const getProjectAllData  = async (currErp)=>{
     try{
@@ -63,5 +75,7 @@ module.exports = {
     getProjectData,
     saveProjectData,
     getProjectAllData,
-    isLogin
+    isLogin,
+    getAllProData,
+    getAllUserData
 }

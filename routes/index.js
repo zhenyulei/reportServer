@@ -1,5 +1,5 @@
 const router = require('koa-router')()
-const { getProjectData , saveProjectData, getProjectAllData } = require("../control/index.js");
+const { getProjectData , saveProjectData, getProjectAllData,getAllProData,getAllUserData } = require("../control/index.js");
 
 router.prefix('/api/project');
 
@@ -23,6 +23,17 @@ router.post('/submitData', async (ctx, next) => {
 router.post('/lookData', async (ctx, next) => {
   const {currErp} = ctx.request.body;
   let resData = await getProjectAllData(currErp);
+  ctx.body = resData;
+})
+
+
+router.get('/getAllProData', async (ctx, next) => {
+  let resData = await getAllProData();
+  ctx.body = resData;
+})
+
+router.get('/getAllUserData', async (ctx, next) => {
+  let resData = await getAllUserData();
   ctx.body = resData;
 })
 
