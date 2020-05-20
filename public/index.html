@@ -17,6 +17,20 @@
           document.body.classList.add('webp');
           window.supportWebp = true;
         }  
+
+        if ('serviceWorker' in navigator) {
+            //如果浏览器支持 Service Worker API，在页面 onload 的时候注册位于 /sw.js 的 Service Worker。
+            //启动一个线程很耗时，建议放到onload事件中 
+            window.addEventListener('load', function () {
+                navigator.serviceWorker.register('/sw.js', {scope: '/'})//scope 指定网域目录上所有事项的 fetch 事件
+                    .then(function (registration) { // 注册成功
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    })
+                    .catch(function (err) {  // 注册失败
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
     </script>            
     <div id="app"></div>
   <script type="text/javascript" src="js/vendor.dll.js"></script><script type="text/javascript" src="js/app.js"></script></body> 
