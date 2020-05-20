@@ -4,7 +4,7 @@ let projectPath = null;
 if(process.env.NODE_ENV == "dev"){
     projectPath = path.resolve(__dirname,"../data/report.json");
 }else{
-    projectPath = path.resolve(__dirname,"../../../publicData/report.json");
+    projectPath = path.resolve(__dirname,"./myReport.json");
 }
 const projectData = require(projectPath);
 const userData = require("../data/userInfo.json");
