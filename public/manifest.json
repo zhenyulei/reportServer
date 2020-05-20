@@ -3,11 +3,11 @@
     "short_name": "日报",
     "description": "小组日报填写平台", 
     "icons": [{
-        "src": "https://img10.360buyimg.com/imagetools/jfs/t1/118911/20/6244/5340/5eb9431cE8cd86a1d/1579cdf6ac2d1b8d.png",
+        "src": "https://img13.360buyimg.com/imagetools/jfs/t1/120593/25/2354/6476/5ec4d8f0E5ada3416/ce2246b73a8e698f.png",
         "sizes": "150x150",
         "type": "image/png"
     }, {
-        "src": "https://img10.360buyimg.com/imagetools/jfs/t1/118911/20/6244/5340/5eb9431cE8cd86a1d/1579cdf6ac2d1b8d.png",
+        "src": "https://img13.360buyimg.com/imagetools/jfs/t1/120593/25/2354/6476/5ec4d8f0E5ada3416/ce2246b73a8e698f.png",
         "sizes": "250x250",
         "type": "image/png"
     }],
