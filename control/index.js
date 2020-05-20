@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const projectData = require("../data/projectList.json");
+const projectData = require(path.resolve(__dirname,"../../projectList.json"));
 const userData = require("../data/userInfo.json");
 
 
