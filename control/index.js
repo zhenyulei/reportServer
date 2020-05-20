@@ -19,23 +19,27 @@ function saveProjectData(newData){
         return {
             "success":"true"
         }
-    })
+    })    
 }
 
 const getProjectAllData  = async (currErp)=>{
-    let useInfo = userData.find((item)=>{
-        return item.erp == currErp;
-    });
-    if(useInfo.level>1){
-        let resArr = [];
-        for(let key in projectData){
-            for(let i in projectData[key]){
-                resArr.push(projectData[key][i]);
+    try{
+        let useInfo = userData.find((item)=>{
+            return item.erp == currErp;
+        });
+        if(useInfo.level>1){
+            let resArr = [];
+            for(let key in projectData){
+                for(let i in projectData[key]){
+                    resArr.push(projectData[key][i]);
+                }
             }
+            return resArr;
+        }else{
+            return projectData[currErp];
         }
-        return resArr;
-    }else{
-        return projectData[currErp];
+    }catch(e){
+        return [];
     }
 }
 //判断登陆是否正确

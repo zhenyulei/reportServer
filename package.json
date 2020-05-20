@@ -10,7 +10,7 @@
     "prd": "cross-env NODE_ENV=production pm2 start bin/www --watch",
     "test": "echo \"Error: no test specified\" && exit 1",
     "setup": "pm2 deploy ecosystem.json production setup",
-    "upload": "pm2 deploy ecosystem.json production -f"
+    "upload": "pm2 deploy ecosystem.json production"
   },
   "repository": {
     "type": "git",
