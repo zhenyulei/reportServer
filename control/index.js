@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const projectData = require(path.resolve(__dirname,"../../projectList.json"));
+const projectData = require(path.resolve(__dirname,"../../../publicData/report.json"));
 const userData = require("../data/userInfo.json");
 
 
@@ -14,7 +14,7 @@ const getProjectData  = async (currErp)=>{
 function saveProjectData(newData){
     let erp = newData[0].proErp;
     projectData[erp] = newData;
-    fs.writeFile(path.resolve(__dirname,"../../projectList.json"),JSON.stringify(projectData),err=>{
+    fs.writeFile(path.resolve(__dirname,"../../../publicData/report.json"),JSON.stringify(projectData),err=>{
         if(err) return {"success":"false"}
         return {
             "success":"true"
