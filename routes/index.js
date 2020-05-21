@@ -40,7 +40,7 @@ router.get('/getAllUserData', async (ctx, next) => {
 
 router.get('/currVersion', async (ctx, next) => {
   ctx.body = {
-    "currVersion":"1.0.0"
+    "currVersion":"1.0.1"
   };
 })
 

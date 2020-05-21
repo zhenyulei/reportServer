@@ -31,7 +31,7 @@ function saveProjectData(newData){
 
 //
 const getAllProData = async()=>{
-    return proData;
+    return projectData;
 }
 
 const getAllUserData = async()=>{
