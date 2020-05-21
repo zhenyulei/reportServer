@@ -80,8 +80,8 @@ const getUserInfo  = async (userErp,userPassWord)=>{
 }
 
 //查看日报
-const lookProjectData  = async (currErp)=>{
-    let sql1 = `select * from prouser where userErp='${currErp}'`
+const lookProjectData  = async (userErp)=>{
+    let sql1 = `select * from prouser where userErp='${userErp}'`
     let userInfo = await exec(sql1);
     if(userInfo[0].isLeader === 1){
         let sql1 = `select * from myproject where userGroup='${userInfo[0].userGroup}' and isShow=1`;
