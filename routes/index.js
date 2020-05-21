@@ -1,12 +1,11 @@
-const router = require('koa-router')()
-const { getProjectData , saveProjectData, getProjectAllData,getAllProData,getAllUserData } = require("../control/index.js");
-
+const router = require('koa-router')();
 router.prefix('/api/project');
+const { getProjectData , saveProjectData, deleteProject,lookProjectData } = require("../control/index.js");
 
 //获取当前登陆人的数据
 router.post('/getPersonData', async (ctx, next) => {
-  const {currErp} = ctx.request.body;
-  let currData = await getProjectData(currErp);
+  const {userErp} = ctx.request.body;
+  let currData = await getProjectData(userErp);
   ctx.body = currData;
 })
 
@@ -19,29 +18,26 @@ router.post('/submitData', async (ctx, next) => {
   };
 })
 
-//保存当前登陆人的数据
+//查看数据
 router.post('/lookData', async (ctx, next) => {
-  const {currErp} = ctx.request.body;
-  let resData = await getProjectAllData(currErp);
+  const {userErp} = ctx.request.body;
+  let resData = await lookProjectData(userErp);
   ctx.body = resData;
 })
 
-
-router.get('/getAllProData', async (ctx, next) => {
-  let resData = await getAllProData();
+//删除数据
+router.post('/deleteData', async (ctx, next) => {
+  const {id} = ctx.request.body;
+  let resData = await deleteProject(id);
   ctx.body = resData;
 })
 
-router.get('/getAllUserData', async (ctx, next) => {
-  let resData = await getAllUserData();
-  ctx.body = resData;
-})
-
-
+//获取当前版本
 router.get('/currVersion', async (ctx, next) => {
   ctx.body = {
     "currVersion":"1.0.1"
   };
 })
+
 
 module.exports = router

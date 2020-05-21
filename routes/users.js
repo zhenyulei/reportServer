@@ -1,15 +1,16 @@
 const router = require('koa-router')()
-const { isLogin } = require("../control/index.js");
+const { getUserInfo } = require("../control/index.js");
 
 router.prefix('/api/users')
 
 router.post('/userLogin', async function (ctx, next) {
-  const {useErp,usePassWord} = ctx.request.body;
-  let currData = await isLogin(useErp,usePassWord);
+  const {userErp,userPassWord} = ctx.request.body;
+  let currData = await getUserInfo(userErp,userPassWord);
   if(currData.length>0){
     ctx.body = {
       "userName":currData[0].userName,
-      "userErp":currData[0].erp,
+      "userErp":currData[0].userErp,
+      "userGroup":currData[0].userGroup,
       "success":true
     };
   }else{
@@ -17,8 +18,5 @@ router.post('/userLogin', async function (ctx, next) {
       "success":false
     };
   }
-  
 })
-
-
 module.exports = router
