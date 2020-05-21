@@ -38,7 +38,7 @@ const getProjectData  = async (userErp)=>{
 //保存数据
 const saveProjectData =  async(newData) => {
     newData.map( async(item)=>{
-        let {addFlag,userErp,proName,proBg,proPlan,proProgress,proProblem,proWork,proPerson,userName,userGroup} = item;
+        let {addFlag,id,userErp,proName,proBg,proPlan,proProgress,proProblem,proWork,proPerson,userName,userGroup} = item;
         try{
             if(addFlag){//说明是新数据
                 let sql = `insert into myproject (userErp,proName,proBg,proPlan,proProgress,proProblem,proWork,proPerson,userName,userGroup) values ('${userErp}','${proName}','${proBg}','${proPlan}','${proProgress}','${proProblem}','${proWork}','${proPerson}','${userName}','${userGroup}')`;
