@@ -35,7 +35,7 @@ router.post('/deleteData', async (ctx, next) => {
 //获取当前版本
 router.get('/currVersion', async (ctx, next) => {
   ctx.body = {
-    "currVersion":"1.0.1"
+    "currVersion":"1.0.2"
   };
 })
 

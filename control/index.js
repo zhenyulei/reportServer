@@ -38,9 +38,9 @@ const getProjectData  = async (userErp)=>{
 //保存数据
 const saveProjectData =  async(newData) => {
     newData.map( async(item)=>{
-        let {id,userErp,proName,proBg,proPlan,proProgress,proProblem,proWork,proPerson,userName,userGroup} = item;
+        let {addFlag,userErp,proName,proBg,proPlan,proProgress,proProblem,proWork,proPerson,userName,userGroup} = item;
         try{
-            if(id == "null"){//说明是新数据
+            if(addFlag){//说明是新数据
                 let sql = `insert into myproject (userErp,proName,proBg,proPlan,proProgress,proProblem,proWork,proPerson,userName,userGroup) values ('${userErp}','${proName}','${proBg}','${proPlan}','${proProgress}','${proProblem}','${proWork}','${proPerson}','${userName}','${userGroup}')`;
                 let insertData = await exec(sql);
                 return insertData.insertId;//插入的ID是1
@@ -81,9 +81,9 @@ const getUserInfo  = async (userErp,userPassWord)=>{
 
 //查看日报
 const lookProjectData  = async (userErp)=>{
-    let sql1 = `select * from prouser where userErp='${userErp}'`
-    let userInfo = await exec(sql1);
-    if(userInfo[0].isLeader === 1){
+    let sql = `select * from prouser where userErp='${userErp}'`
+    let userInfo = await exec(sql);
+    if(userInfo[0].isLeader == 1){
         let sql1 = `select * from myproject where userGroup='${userInfo[0].userGroup}' and isShow=1`;
         let lookData = await exec(sql1);
         return lookData;
