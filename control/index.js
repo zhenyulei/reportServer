@@ -10,8 +10,6 @@ const projectData = require(projectPath);
 const userData = require("../data/userInfo.json");
 
 
-
-
 const getProjectData  = async (currErp)=>{
     if(projectData[currErp]){
         return projectData[currErp];
@@ -19,6 +17,7 @@ const getProjectData  = async (currErp)=>{
         return []
     }
 }
+
 function saveProjectData(newData){
     let erp = newData[0].proErp;
     projectData[erp] = newData;
@@ -32,7 +31,7 @@ function saveProjectData(newData){
 
 //
 const getAllProData = async()=>{
-    return projectData;
+    return proData;
 }
 
 const getAllUserData = async()=>{

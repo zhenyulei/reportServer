@@ -37,4 +37,11 @@ router.get('/getAllUserData', async (ctx, next) => {
   ctx.body = resData;
 })
 
+
+router.get('/currVersion', async (ctx, next) => {
+  ctx.body = {
+    "currVersion":"1.0.0"
+  };
+})
+
 module.exports = router
