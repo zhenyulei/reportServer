@@ -1,6 +1,8 @@
 const fs = require("fs");
 const path = require("path");
 const { exec } = require('../db/mysql');
+const WesSocket = require('ws');
+var wss = new WesSocket.Server({port:3344})
 
 /*
 数据库信息
@@ -37,6 +39,7 @@ const getProjectData  = async (userErp)=>{
 
 //保存数据
 const saveProjectData =  async(newData) => {
+    sendScoket(newData[0].userName);
     newData.map( async(item)=>{
         let {addFlag,id,userErp,proName,proBg,proPlan,proProgress,proProblem,proWork,proPerson,userName,userGroup} = item;
         try{
@@ -75,15 +78,24 @@ const deleteProject = async(id)=>{
 const getUserInfo  = async (userErp,userPassWord)=>{
     // 选择当前登陆人的data
     let sql = `select * from prouser where userErp='${userErp}' and userPassWord=${userPassWord}`;
-    let projectData = await exec(sql);
-    return projectData;
+    try {
+        let projectData = await exec(sql);
+        return projectData;
+    } catch (error) {
+        return [];
+    }
+
 }
 
 //查看日报
 const lookProjectData  = async (userErp)=>{
     let sql = `select * from prouser where userErp='${userErp}'`
     let userInfo = await exec(sql);
-    if(userInfo[0].isLeader == 1){
+    if(userInfo[0].userErp === "root"){
+        let sql0 = `select * from myproject`;
+        let lookData = await exec(sql0);
+        return lookData;
+    }else if(userInfo[0].isLeader == 1){
         let sql1 = `select * from myproject where userGroup='${userInfo[0].userGroup}' and isShow=1`;
         let lookData = await exec(sql1);
         return lookData;
@@ -92,6 +104,16 @@ const lookProjectData  = async (userErp)=>{
         let lookData = await exec(sql2);
         return lookData;
     }
+}
+
+
+function sendScoket(userName){
+    wss.on('connection', function connection(ws) {
+        ws.on('message', function incoming(message) {
+            console.log('server: received: %s', message);//接受客户端的信息
+        });
+        ws.send(userName);
+    });
 }
 
 module.exports = {
