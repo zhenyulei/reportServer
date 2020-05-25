@@ -3,7 +3,14 @@ const path = require("path");
 const { exec } = require('../db/mysql');
 const WesSocket = require('ws');
 var wss = new WesSocket.Server({port:3344})
-
+var mysw = null;
+wss.on('connection', function connection(ws) {
+    ws.on('message', function incoming(message) {
+        mysw = ws;
+        console.log('server: received: %s', message);//接受客户端的信息
+    });
+   
+});
 /*
 数据库信息
 表：myproject——用来存放日报数据
@@ -39,7 +46,7 @@ const getProjectData  = async (userErp)=>{
 
 //保存数据
 const saveProjectData =  async(newData) => {
-    sendScoket(newData[0].userName);
+    mysw.send(newData[0].userName);
     newData.map( async(item)=>{
         let {addFlag,id,userErp,proName,proBg,proPlan,proProgress,proProblem,proWork,proPerson,userName,userGroup} = item;
         try{
@@ -107,14 +114,6 @@ const lookProjectData  = async (userErp)=>{
 }
 
 
-function sendScoket(userName){
-    wss.on('connection', function connection(ws) {
-        ws.on('message', function incoming(message) {
-            console.log('server: received: %s', message);//接受客户端的信息
-        });
-        ws.send(userName);
-    });
-}
 
 module.exports = {
     lookProjectData,
