@@ -1,5 +1,5 @@
 const router = require('koa-router')()
-const { getUserInfo } = require("../control/index.js");
+const { getUserInfo,getUserInfoTime } = require("../control/index.js");
 
 router.prefix('/api/users')
 
@@ -11,7 +11,9 @@ router.post('/userLogin', async function (ctx, next) {
       "userName":currData[0].userName,
       "userErp":currData[0].userErp,
       "userGroup":currData[0].userGroup,
-      "success":true
+      "isLeader":currData[0].isLeader,
+      "success":true,
+      "currTimer":currData[0].currTime
     };
   }else{
     ctx.body = {
@@ -19,4 +21,18 @@ router.post('/userLogin', async function (ctx, next) {
     };
   }
 })
+
+router.post('/getUserInfoTime', async function (ctx, next) {
+  const {userGroup} = ctx.request.body;
+  let currData = await getUserInfoTime(userGroup);
+  if(currData.length>0){
+    ctx.body = currData;
+  }else{
+    ctx.body = {
+      "success":false
+    };
+  }
+})
+
+
 module.exports = router

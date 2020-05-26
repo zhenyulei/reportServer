@@ -34,7 +34,41 @@ wss.on('connection', function connection(ws) {
 "userGroup":"1"//所属分组
 "isLeader":"0"//是否为小组长，可以查看全组数据
 */
-
+function getNowFormatDate() {
+    var date = new Date();
+    var seperator1 = "-";
+    var seperator2 = ":";
+    var month = date.getMonth() + 1;
+    var strDate = date.getDate();
+    var strHours = date.getHours();
+    var strMinutes = date.getMinutes();
+    var strSeconds = date.getSeconds();
+    if (month >= 1 && month <= 9) {
+        month = "0" + month;
+    }
+    if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+    }
+    if (strHours >= 0 && strHours <= 9) {
+        strHours = "0" + strHours;
+    }
+    if (strMinutes >= 0 && strMinutes <= 9) {
+        strMinutes = "0" + strMinutes;
+    }
+    if (strSeconds >= 0 && strSeconds <= 9) {
+        strSeconds = "0" + strSeconds;
+    }
+    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+            + " " + strHours + seperator2 + strMinutes
+            + seperator2 + strSeconds;
+    return currentdate;
+}
+//更新user的时间
+function updateUserTime(userErp){
+    let currentTime = getNowFormatDate();
+    let sql = `update prouser set currTime='${currentTime}' where userErp='${userErp}'`;
+    exec(sql);
+}
 
 //获取数据
 const getProjectData  = async (userErp)=>{
@@ -46,17 +80,19 @@ const getProjectData  = async (userErp)=>{
 
 //保存数据
 const saveProjectData =  async(newData) => {
-    mysw.send(newData[0].userName);
+    //mysw.send(newData[0].userName);
     newData.map( async(item)=>{
         let {addFlag,id,userErp,proName,proBg,proPlan,proProgress,proProblem,proWork,proPerson,userName,userGroup} = item;
         try{
             if(addFlag){//说明是新数据
                 let sql = `insert into myproject (userErp,proName,proBg,proPlan,proProgress,proProblem,proWork,proPerson,userName,userGroup) values ('${userErp}','${proName}','${proBg}','${proPlan}','${proProgress}','${proProblem}','${proWork}','${proPerson}','${userName}','${userGroup}')`;
                 let insertData = await exec(sql);
+                updateUserTime(userErp);
                 return insertData.insertId;//插入的ID是1
             }else{
                 let sql = `update myproject set  userErp='${userErp}',proName='${proName}',proBg='${proBg}',proPlan='${proPlan}',proProgress='${proProgress}',proProblem='${proProblem}',proWork='${proWork}',proPerson='${proPerson}',userName='${userName}',userGroup='${userGroup}' where id='${id}'`;
                 let updateData = await exec(sql);//更新浏览数据
+                updateUserTime(userErp);
                 return updateData.affectedRows;//影响的数据是1
             }
         }catch(e){
@@ -91,7 +127,18 @@ const getUserInfo  = async (userErp,userPassWord)=>{
     } catch (error) {
         return [];
     }
+}
 
+//获取所有用户信息
+const getUserInfoTime  = async (userGroup)=>{
+    // 选择当前登陆人的data
+    let sql = `select * from prouser where userGroup=${userGroup}`;
+    try {
+        let projectData = await exec(sql);
+        return projectData;
+    } catch (error) {
+        return [];
+    }
 }
 
 //查看日报
@@ -113,12 +160,11 @@ const lookProjectData  = async (userErp)=>{
     }
 }
 
-
-
 module.exports = {
     lookProjectData,
     deleteProject,
     getUserInfo,
     getProjectData,
-    saveProjectData
+    saveProjectData,
+    getUserInfoTime
 }
